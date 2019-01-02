@@ -2,11 +2,7 @@ require_relative '02_searchable'
 require 'active_support/inflector'
 
 class AssocOptions
-  attr_accessor(
-    :foreign_key,
-    :class_name,
-    :primary_key
-  )
+  attr_accessor :foreign_key, :class_name, :primary_key
 
   def model_class
     @class_name.constantize
@@ -33,7 +29,6 @@ end
 
 class HasManyOptions < AssocOptions
   def initialize(name, self_class_name, options = {})
-    # ...
     defaults = {
       foreign_key: "#{self_class_name.underscore}_id".to_sym,
       primary_key: :id,
@@ -48,9 +43,11 @@ end
 
 module Associatable
   def belongs_to(name, options = {})
+    self.assoc_options[name] = BelongsToOptions.new(name, options)
 
-    options = BelongsToOptions.new(name, options)
     define_method(name) do
+      options = self.class.assoc_options[name]
+
       f_key = self.send(options.foreign_key)
       p_key = options.primary_key
       options.model_class.where(p_key => f_key).first
@@ -58,9 +55,11 @@ module Associatable
   end
 
   def has_many(name, options = {})
-    options = HasManyOptions.new(name, self.name, options)
+    self.assoc_options[name] = HasManyOptions.new(name, self.name, options)
 
     define_method(name) do
+      options = self.class.assoc_options[name]
+
       f_key = options.foreign_key
       p_key = self.send(options.primary_key)
       options.model_class.where(f_key => p_key)
@@ -68,7 +67,8 @@ module Associatable
   end
 
   def assoc_options
-    # Wait to implement this in Phase IVa. Modify `belongs_to`, too.
+    @assoc_options ||= {}
+    @assoc_options
   end
 end
 
