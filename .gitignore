@@ -1,3 +1,9 @@
 /spec/
 .DS_Store
 .byebug_history
+
+cats.sql
+cats.db
+cats_humans.rb
+
+music.db
