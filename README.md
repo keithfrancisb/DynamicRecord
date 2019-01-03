@@ -135,3 +135,9 @@ panic = Artist.find(1) # => 'Panic! At The Disco'
 panic.name = 'Brendon Urie' # => changes 'Panic! At The Disco' to 'Brendon Urie'
 panic.save # => updates the name of the already persisted data in the database
 ```
+
+## Future Plans
+* Make Validations applicable in models.
+* Allow `::where` to be more versatile and flexible by not only limiting to hash condition parameters.
+* Create eager loading associations such as `::includes` to avoid N+1 Queries.
+* Create `::find_by_sql` method to allow for even more flexibility.
