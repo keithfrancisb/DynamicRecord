@@ -18,7 +18,3 @@ module Searchable
     parse_all(data)
   end
 end
-
-# class SQLObject
-#   extend Searchable
-# end
