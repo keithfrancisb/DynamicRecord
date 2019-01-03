@@ -1,5 +1,3 @@
-require_relative '02_searchable'
-require 'active_support/inflector'
 
 class AssocOptions
   attr_accessor :foreign_key, :class_name, :primary_key
@@ -38,35 +36,5 @@ class HasManyOptions < AssocOptions
     defaults.keys.each do |key|
       self.send("#{key}=", options[key] || defaults[key])
     end
-  end
-end
-
-module Associatable
-  def belongs_to(name, options = {})
-    self.assoc_options[name] = BelongsToOptions.new(name, options)
-
-    define_method(name) do
-      options = self.class.assoc_options[name]
-
-      f_key = self.send(options.foreign_key)
-      p_key = options.primary_key
-      options.model_class.where(p_key => f_key).first
-    end
-  end
-
-  def has_many(name, options = {})
-    self.assoc_options[name] = HasManyOptions.new(name, self.name, options)
-
-    define_method(name) do
-      options = self.class.assoc_options[name]
-
-      f_key = options.foreign_key
-      p_key = self.send(options.primary_key)
-      options.model_class.where(f_key => p_key)
-    end
-  end
-
-  def assoc_options
-    @assoc_options ||= {}
   end
 end

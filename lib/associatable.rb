@@ -1,7 +1,36 @@
-require_relative '03_associatable'
+require_relative 'searchable'
+require_relative 'assoc_options'
+require 'active_support/inflector'
 
-# Phase IV
 module Associatable
+
+  def assoc_options
+    @assoc_options ||= {}
+  end
+
+  def belongs_to(name, options = {})
+    self.assoc_options[name] = BelongsToOptions.new(name, options)
+
+    define_method(name) do
+      options = self.class.assoc_options[name]
+
+      f_key = self.send(options.foreign_key)
+      p_key = options.primary_key
+      options.model_class.where(p_key => f_key).first
+    end
+  end
+
+  def has_many(name, options = {})
+    self.assoc_options[name] = HasManyOptions.new(name, self.name, options)
+
+    define_method(name) do
+      options = self.class.assoc_options[name]
+
+      f_key = options.foreign_key
+      p_key = self.send(options.primary_key)
+      options.model_class.where(f_key => p_key)
+    end
+  end
 
   def has_one_through(name, through_name, source_name)
     define_method(name) do
@@ -34,4 +63,5 @@ module Associatable
       source_options.model_class.parse_all(results).first
     end
   end
+
 end

@@ -1,10 +1,8 @@
-require_relative '02_searchable'
-require_relative '03_associatable'
-require_relative '04_associatable2'
+require_relative 'searchable'
+require_relative 'associatable'
 require_relative 'db_connection'
 
 require 'active_support/inflector'
-require 'byebug'
 
 module DynamicRecord
   class Base
