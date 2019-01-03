@@ -78,3 +78,28 @@ Allows you to limit the data fetched by specifying certain conditions in the for
 song = Song.where(name: 'King of the Clouds').first # => returns a song called 'King of the Clouds' by 'Panic! at the Disco'.
 Album.where(id: song.album_id) # => returns an album called 'Pray For The Wicked'
 ```
+
+## Forming Associations between tables in a database
+One of the benefits of using an ORM tool is the ability to form associations between data from tables in a database. DynamicRecord allows developers to form. Refer to the associations defined in the models above.
+
+### `belongs_to`
+```ruby
+song = Song.find(8) # => 'King of the Clouds'
+song.artist # => 'Panic! At The Disco'
+song.album # => 'Pray For The Wicked'
+```
+
+### `has_many`
+```ruby
+panic = Artist.find(1) # => 'Panic! At The Disco'
+panic.albums # => 'Pray For The Wicked', A Fever You Can't Sweat Out'
+```
+
+### `has_one_through`
+```ruby
+everytime = Song.find(30) # => 'everytime' by 'Ariana Grande'
+everytime.genre # => 'Pop'
+
+anything_goes = Album.find(5) # => 'Anything Goes' by 'Florida Georgia Line'
+anything_goes.genre # => 'Country'
+```
