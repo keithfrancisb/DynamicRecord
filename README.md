@@ -80,7 +80,7 @@ Album.where(id: song.album_id) # => returns an album called 'Pray For The Wicked
 ```
 
 ## Forming Associations between tables in a database
-One of the benefits of using an ORM tool is the ability to form associations between data from tables in a database. DynamicRecord allows developers to form. Refer to the associations defined in the models above.
+One of the benefits of using an ORM tool is the ability to form associations between data from tables in a database. DynamicRecord allows developers to form these associations. Refer to the associations defined in the models above.
 
 #### `belongs_to`
 ```ruby
@@ -124,7 +124,7 @@ rock.update # => updates the name of the row in the genre table in the database
 ```
 
 #### `#save`
-Method that is a combination of both `#insert` and `#update` wherein it checks where certain data has already been persisted into the database. If the data has already been persisted into the database, then it would call the `#update` method to update the data in the database. Otherwise, it will call the `#insert` method and create a new row in the table in the database of which the data pertains to.
+Method that is a combination of both `#insert` and `#update` wherein it checks whether certain data has already been persisted into the database. If the data has already been persisted into the database, then it would call the `#update` method to update the data in the database. Otherwise, it will call the `#insert` method and create a new row in the table in the database of which the data pertains to.
 ```ruby
 # inserts new data into the database
 jazz = Genre.new(name: 'Jazz') # => creates a new genre
